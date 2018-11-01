@@ -1,3 +1,17 @@
+## [5.0.1] - 2018-11-07
+
+### Changed
+
+* Removing support for old API keys
+
+## [5.0.0] - 2018-11-01
+
+### Changed
+
+* Re-purposing for Notify.gov.au
+* Removed support for letters
+* Converted to typescript
+
 ## [4.5.1] - 2018-09-14
 
 ### Changed

@@ -1,0 +1,121 @@
+version: 2
+
+references:
+  node_image: &node_image
+    docker:
+    - image: circleci/node:10-browsers
+
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: .
+
+  restore_cache: &restore_cache
+    restore_cache:
+      keys:
+      # when lock file changes, use increasingly general patterns to restore cache
+      - npm-repo-node-client-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - npm-repo-node-client-v1-{{ .Branch }}-
+      - npm-repo-node-client-v1
+
+  master_branch: &master_branch
+    filters:
+      branches:
+        only:
+        - master
+
+jobs:
+  setup:
+    <<: *node_image
+    steps:
+    - checkout
+    - persist_to_workspace:
+        root: .
+        paths:
+        - .
+        - dist
+        - spec
+        - src
+
+  download-dependencies:
+    <<: *node_image
+    steps:
+    - *attach_workspace
+    - *restore_cache
+    - run:
+        name: Download production dependencies
+        command: make ci
+    - save_cache:
+        paths:
+        - ~/project/node_modules
+        key: npm-repo-node-client-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+
+  # Integration tests are configured in Circle CI to hit https://notify.gov.au with Notify services setup with notify-dev@digital.gov.au
+  test:
+    <<: *node_image
+    steps:
+    - *attach_workspace
+    - *restore_cache
+    - run:
+        name: Download dev dependencies
+        command: make ci-dev
+    - run:
+        name: Run unit tests
+        command: make test
+    - run:
+        name: Run integration tests
+        command: make integration-test
+
+  build:
+    <<: *node_image
+    steps:
+    - *attach_workspace
+    - *restore_cache
+    - run:
+        name: Compile typescript to javascript
+        command: make build
+    - persist_to_workspace:
+        root: .
+        paths:
+        - dist
+
+  publish-to-npmjs:
+    <<: *node_image
+    steps:
+    - *attach_workspace
+    - *restore_cache
+    - run:
+        name: Authenticate with registry
+        command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/project/.npmrc
+    - run:
+        name: Publish to npmjs
+        command: make publish
+
+workflows:
+  version: 2
+  build-test-publish:
+    jobs:
+    - setup
+
+    - download-dependencies:
+        requires:
+        - setup
+
+    - test:
+        requires:
+        - download-dependencies
+
+    - build:
+        requires:
+        - download-dependencies
+
+    - approve-publish-to-npmjs:
+        <<: *master_branch
+        type: approval
+        requires:
+        - test
+        - build
+
+    - publish-to-npmjs:
+        <<: *master_branch
+        requires:
+        - approve-publish-to-npmjs

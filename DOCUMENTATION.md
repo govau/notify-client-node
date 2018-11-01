@@ -1,6 +1,6 @@
-# GOV.UK Notify Node.js client
+# GOV.AU Notify Node.js client
 
-This documentation is for developers interested in using this Node.js client to integrate their government service with GOV.UK Notify.
+This documentation is for developers interested in using this Node.js client to integrate their government service with GOV.AU Notify.
 
 ## Table of Contents
 
@@ -18,17 +18,17 @@ This documentation is for developers interested in using this Node.js client to 
 ## Installation
 
 ```shell
-npm install --save notifications-node-client
+npm install --save @govau-platforms/notify-client
 ```
 
 ## Getting started
 
 ```javascript
-var NotifyClient = require('notifications-node-client').NotifyClient,
+var NotifyClient = require('@govau-platforms/notify-client').NotifyClient,
 	notifyClient = new NotifyClient(apiKey);
 ```
 
-Generate an API key by logging in to [GOV.UK Notify](https://www.notifications.service.gov.uk) and going to the _API integration_ page.
+Generate an API key by logging in to [GOV.AU Notify](https://www.notify.gov.au) and going to the _API integration_ page.
 
 ### Connect through a proxy (optional)
 
@@ -77,11 +77,11 @@ Click here to expand for more information.
         "body": "Some words",
         "from_number": "40604"
     },
-    "uri": "https://api.notifications.service.gov.uk/v2/notifications/ceb50d92-100d-4b8b-b559-14fa3b091cd",
+    "uri": "https://rest-api.notify.gov.au/v2/notifications/ceb50d92-100d-4b8b-b559-14fa3b091cd",
     "template": {
         "id": "ceb50d92-100d-4b8b-b559-14fa3b091cda",
        "version": 1,
-       "uri": "https://api.notifications.service.gov.uk/v2/templates/bfb50d92-100d-4b8b-b559-14fa3b091cda"
+       "uri": "https://rest-api.notify.gov.au/v2/templates/bfb50d92-100d-4b8b-b559-14fa3b091cda"
     }
 }
 ```
@@ -93,7 +93,7 @@ Otherwise the client will return an error `err`:
 |`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM of 10 requests per 10 seconds"`<br>`}]`|
 |`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (50) for today"`<br>`}]`|
 |`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient using a team-only API key"`<br>`]}`|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient when service is in trial mode - see https://notify.gov.au/trial-mode"`<br>`}]`|
 
 </details>
 
@@ -182,13 +182,13 @@ Click here to expand for more information.
     "content": {
         "subject": "Licence renewal",
         "body": "Dear Bill, your licence is due for renewal on 3 January 2016.",
-        "from_email": "the_service@gov.uk"
+        "from_email": "the_service@gov.au"
     },
-    "uri": "https://api.notifications.service.gov.uk/v2/notifications/ceb50d92-100d-4b8b-b559-14fa3b091cd",
+    "uri": "https://rest-api.notify.gov.au/v2/notifications/ceb50d92-100d-4b8b-b559-14fa3b091cd",
     "template": {
         "id": "ceb50d92-100d-4b8b-b559-14fa3b091cda",
         "version": 1,
-        "uri": "https://api.notifications.service.gov.uk/service/your_service_id/templates/bfb50d92-100d-4b8b-b559-14fa3b091cda"
+        "uri": "https://rest-api.notify.gov.au/service/your_service_id/templates/bfb50d92-100d-4b8b-b559-14fa3b091cda"
     }
 }
 ```
@@ -199,7 +199,7 @@ Otherwise the client will return an error `error object`:
 |`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM of 10 requests per 10 seconds"`<br>`}]`|
 |`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (50) for today"`<br>`}]`|
 |`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient using a team-only API key"`<br>`]}`|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient when service is in trial mode - see https://notify.gov.au/trial-mode"`<br>`}]`|
 
 </details>
 
@@ -260,7 +260,7 @@ Click here to expand for more information.
 
 To send a document by email, add a placeholder field to the template then upload a file. The placeholder field will contain a secure link to download the document.
 
-[Contact the GOV.UK Notify team](https://www.notifications.service.gov.uk/support) to enable this function for your service.
+[Contact the GOV.AU Notify team](https://notify.gov.au/support) to enable this function for your service.
 
 </details>
 
@@ -315,11 +315,11 @@ Click here to expand for more information.
     "body": "MESSAGE TEXT",
     "from_email": "SENDER EMAIL"
   },
-  "uri": "https://api.notifications.service.gov.uk/v2/notifications/740e5834-3a29-46b4-9a6f-16142fde533a",
+  "uri": "https://rest-api.notify.gov.au/v2/notifications/740e5834-3a29-46b4-9a6f-16142fde533a",
   "template": {
     "id": "f33517ff-2a88-4f6e-b855-c550268ce08a",
     "version": INTEGER,
-    "uri": "https://api.notifications.service.gov.uk/v2/template/f33517ff-2a88-4f6e-b855-c550268ce08a"
+    "uri": "https://rest-api.notify.gov.au/v2/template/f33517ff-2a88-4f6e-b855-c550268ce08a"
   }
 }
 ```
@@ -337,7 +337,7 @@ Click here to expand for more information.
 |error.status_code|error.message|How to fix|
 |:---|:---|:---|
 |`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient using a team-only API key"`<br>`]}`|Use the correct type of [API key](#api-keys)|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
+|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient when service is in trial mode - see https://notify.gov.au/trial-mode"`<br>`}]`|Your service cannot send this notification in [trial mode](https://notify.gov.au/features/using-notify#trial-mode)|
 |`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Unsupported document type '{}'. Supported types are: {}"`<br>`}]`|The document you upload must be a PDF file|
 |`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Document didn't pass the virus scan"`<br>`}]`|The document you upload must be virus free|
 |`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
@@ -348,209 +348,6 @@ Click here to expand for more information.
 |`N/A`|`[{`<br>`"error": "Exception",`<br>`"message": "Document is larger than 2MB."`<br>`}]`|The file you tried to upload was above the 2MB limit. Send a file that weighs less than 2MB.|
 
 </details>
-
-
-### Letter
-
-#### Method
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-```javascript
-notifyClient
-    .sendLetter(templateId, {
-				personalisation: personalisation,
-				reference: reference})
-    .then(response => console.log(response))
-    .catch(err => console.error object)
-;
-```
-
-where `personalisation` is
-
-```javascript
-personalisation={
-    address_line_1: 'The Occupier',  // required
-    address_line_2: '123 High Street', // required
-    address_line_3: 'London',
-    postcode: 'SW14 6BH',  // required
-
-    // ... any other optional address lines, or personalisation fields found in your template
-},
-```
-</details>
-
-
-#### Response
-
-If the request is successful, `response` will be an `object`:
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-```javascript
-{
-  "id": "740e5834-3a29-46b4-9a6f-16142fde533a",
-  "reference": null,
-  "content": {
-    "subject": "Licence renewal",
-    "body": "Dear Bill, your licence is due for renewal on 3 January 2016.",
-  },
-  "uri": "https://api.notifications.service.gov.uk/v2/notifications/740e5834-3a29-46b4-9a6f-16142fde533a",
-  "template": {
-    "id": "f33517ff-2a88-4f6e-b855-c550268ce08a",
-    "version": 1,
-    "uri": "https://api.notifications.service.gov.uk/v2/template/f33517ff-2a88-4f6e-b855-c550268ce08a"
-  }
-  "scheduled_for": null
-}
-```
-
-Otherwise the client will raise a `HTTPError`:
-
-|`status_code`|`errors`|
-|:---|:---|
-|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type live of 10 requests per 20 seconds"`<br>`}]`|
-|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (50) for today"`<br>`}]`|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters with a team api key"`<br>`]}`|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|
-|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "personalisation address_line_1 is a required property"`<br>`}]`|
-
-</details>
-
-
-#### Arguments
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-##### `template_id`
-
-Find by clicking **API info** for the template you want to send.
-
-##### `reference`
-
-An optional identifier you generate. The `reference` can be used as a unique reference for the notification. Because Notify does not require this reference to be unique you could also use this reference to identify a batch or group of notifications.
-
-You can omit this argument if you do not require a reference for the notification.
-
-##### `personalisation`
-
-The letter must contain:
-
-- mandatory address fields
-- optional address fields if applicable
-- fields from template
-
-```javascript
-personalisation={
-  address_line_1: 'The Occupier',  // mandatory address field
-  address_line_2: 'Flat 2',  // mandatory address field
-  address_line_3: '123 High Street',  // optional address field
-  address_line_4: 'Richmond upon Thames',  // optional address field
-  address_line_5: 'London',  // optional address field
-  address_line_6: 'Middlesex',  // optional address field
-  postcode: 'SW14 6BH',  // mandatory address field
-  application_id: '1234',  // field from template
-  application_date: '2017-01-01',  // field from template
-}
-```
-
-</details>
-
-
-### Send a precompiled Letter
-
-This is an invitation-only feature. Contact the GOV.UK Notify team on the [support page](https://www.notifications.service.gov.uk/support) or through the [Slack channel](https://ukgovernmentdigital.slack.com/messages/govuk-notify) for more information.
-
-#### Method
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-```javascript
-var response = notifyClient.sendPrecompiledLetter(
-    reference,      // Reference to identify the notification
-    pdf_file        // PDF File object
-)
-```
-
-</details>
-
-#### Arguments
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-##### `reference` (required)
-
-This reference can identify a single unique notification or a batch of notifications. It must not contain any personal information such as name or postal address.
-
-##### `pdf_file` (required)
-
-The precompiled letter must be a PDF file.
-
-```javascript
-var fs = require('fs');
-
-fs.readFile('path/to/document.pdf', function(err, pdf_file) {
-    var notification = notifyClient.sendPrecompiledLetter(
-        reference="your reference", pdf_file=pdf_file
-    )
-	});
-```
-</details>
-
-#### Response
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-If the request to the client is successful, the client returns a response `object`, with a following `body` attribute:
-
-```javascript
-{
-  "id": "740e5834-3a29-46b4-9a6f-16142fde533a",
-  "reference": "your-letter-reference"
-}
-```
-</details>
-
-#### Error codes
-
-If the request is not successful, the client returns an HTTPError containing the relevant error code.
-
-<details>
-<summary>
-Click here to expand for more information.
-</summary>
-
-|error.status_code|error.message|How to fix|
-|:---|:---|:---|
-|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type live of 10 requests per 20 seconds"`<br>`}]`|Use the correct API key. Refer to [API keys](#api-keys) for more information|
-|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (50) for today"`<br>`}]`|Refer to [service limits](#service-limits) for the limit number|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters with a team api key"`<br>`]}`|Use the correct type of [API key](#api-keys)|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send precompiled letters"`<br>`]}`|This is an invitation-only feature. Contact the GOV.UK Notify team on the [support page](https://www.notifications.service.gov.uk/support) or through the [Slack channel](https://ukgovernmentdigital.slack.com/messages/govuk-notify) for more information|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Letter content is not a valid PDF"`<br>`]}`|PDF file format is required|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Cannot send letters when service is in trial mode - see https://www.notifications.service.gov.uk/trial-mode"`<br>`}]`|Your service cannot send this notification in [trial mode](https://www.notifications.service.gov.uk/features/using-notify#trial-mode)|
-|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "reference is a required property"`<br>`}]`|Add a `reference` argument to the method call|
-|`N/A`|`[{`<br>`"error": "Exception",`<br>`"message": "Document is larger than 5MB."`<br>`}]`|The file you tried to upload was above the 5MB limit. Send a file that weighs less than 5MB.|
-
-</details>
-
 
 ## Get the status of one message
 
@@ -596,7 +393,7 @@ If the request is successful, `response` will be an `object`:
     "line_5": "Some county",
     "line_6": "Something else",
     "postcode": "postcode",
-    "type": "sms|letter|email",
+    "type": "sms|email",
     "status": "current status",
     "template": {
         "version": 1,
@@ -673,7 +470,7 @@ Click here to expand for more information.
         "line_5": "Some county",
         "line_6": "Something else",
         "postcode": "postcode",
-        "type": "sms | letter | email",
+        "type": "sms | email",
         "status": sending | delivered | permanent-failure | temporary-failure | technical-failure
         "template": {
             "version": 1,
@@ -696,7 +493,7 @@ Click here to expand for more information.
 |`status_code`|`errors`|
 |:---|:---|
 |`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "bad status is not one of [created, sending, delivered, pending, failed, technical-failure, temporary-failure, permanent-failure]"`<br>`}]`|
-|`400`|`[{`<br>`"error": "Apple is not one of [sms, email, letter]"`<br>`}]`|
+|`400`|`[{`<br>`"error": "Apple is not one of [sms, email]"`<br>`}]`|
 
 </details>
 
@@ -714,7 +511,6 @@ If omitted all messages are returned. Otherwise you can filter by:
 
 * `email`
 * `sms`
-* `letter`
 
 ##### `status`
 
@@ -744,14 +540,6 @@ You can filter by:
 
 You can omit this argument to ignore this filter.
 
-__letter__
-
-You can filter by:
-
-* `accepted` - Notify is in the process of printing and posting the letter
-* `technical-failure` - Notify had an unexpected error while sending to our printing provider
-
-You can omit this argument to ignore this filter.
 
 ##### `reference`
 
@@ -797,7 +585,7 @@ Click here to expand for more information.
 {
     "id": "template_id",
     "name": "template name",
-    "type": "sms|email|letter",
+    "type": "sms|email",
     "created_at": "created at",
     "updated_at": "updated at",
     "version": "version",
@@ -863,7 +651,7 @@ Click here to expand for more information.
 {
     "id": "template_id",
     "name": "template name",
-    "type": "sms|email|letter",
+    "type": "sms|email",
     "created_at": "created at",
     "updated_at": "updated at",
     "version": "version",
@@ -934,7 +722,7 @@ Click here to expand for more information.
         {
             "id": "template_id",
             "name": "template name",
-            "type": "sms|email|letter",
+            "type": "sms|email",
             "created_at": "created at",
             "updated_at": "updated at",
             "version": "version",
@@ -973,7 +761,6 @@ If omitted all messages are returned. Otherwise you can filter by:
 
 * `email`
 * `sms`
-* `letter`
 
 </details>
 
@@ -1011,7 +798,7 @@ If the request is successful, `response` will be an `object`:
 ```javascript
 {
     "id": "notify_id",
-    "type": "sms|email|letter",
+    "type": "sms|email",
     "version": "version",
     "body": "Hello bar" // with substitution values,
     "subject": "null|email_subject"

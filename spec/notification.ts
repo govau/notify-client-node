@@ -1,27 +1,29 @@
-let expect = require('chai').expect,
-  NotifyClient = require('../client/notification.js').NotifyClient,
-  MockDate = require('mockdate'),
-  nock = require('nock'),
-  createGovukNotifyToken = require('../client/authentication.js');
+import { expect } from 'chai';
+import MockDate from 'mockdate';
+import nock from 'nock';
+
+import NotifyClient from '../src/notification';
+import { createGovAuNotifyToken } from '../src/authentication';
 
 MockDate.set(1234567890000);
 
 const baseUrl = 'http://localhost';
 const serviceId = 'c745a8d8-b48a-4b0d-96e5-dbea0165ebd1';
-const apiKeyId = '8b3aa916-ec82-434e-b0c5-d5d9b371d6a3';
+const secret = '8b3aa916-ec82-434e-b0c5-d5d9b371d6a3';
+const apiKeyId = `testkey-${serviceId}-${secret}`;
 
 function getNotifyClient() {
   let baseUrl = 'http://localhost';
-  let notifyClient = new NotifyClient(baseUrl, serviceId, apiKeyId);
+  let notifyClient = new NotifyClient({ baseUrl, apiKeyId });
   return notifyClient;
 }
 
 function getNotifyAuthNock() {
-  let notifyNock = nock(baseUrl, {
+  const notifyNock = nock(baseUrl, {
     reqheaders: {
-      'Authorization': 'Bearer ' + createGovukNotifyToken('POST', '/v2/notifications/', apiKeyId, serviceId)
+      'Authorization': 'Bearer ' + createGovAuNotifyToken(secret, serviceId)
     }
-  })
+  });
   return notifyNock;
 }
 
@@ -57,9 +59,9 @@ describe('notification api', () => {
       .reply(200, {hooray: 'bkbbk'});
 
       return notifyClient.sendEmail(templateId, email, options)
-      .then(function (response) {
-        expect(response.statusCode).to.equal(200);
-      });
+        .then(response => {
+          expect(response.statusCode).to.equal(200)
+        });
 
     });
 
@@ -88,30 +90,6 @@ describe('notification api', () => {
       });
     });
 
-    it('should send an email with document upload', () => {
-      let email = 'dom@example.com',
-        templateId = '123',
-        options = {
-          personalisation: {documents:
-            notifyClient.prepareUpload(Buffer.from("%PDF-1.5 testpdf"))
-          },
-        },
-        data = {
-          template_id: templateId,
-          email_address: email,
-          personalisation: options.personalisation,
-        };
-
-      notifyAuthNock
-      .post('/v2/notifications/email', data)
-      .reply(200, {hooray: 'bkbbk'});
-
-      return notifyClient.sendEmail(templateId, email, options)
-      .then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
-    });
-
     it('should reject options dicts with unknown options', () => {
       let email = 'foo@bar.com',
         templateId = '123',
@@ -123,15 +101,6 @@ describe('notification api', () => {
         };
       return notifyClient.sendEmail(templateId, email, options)
         .catch((err) => expect(err.message).to.include('["firstname","surname"]'));
-    });
-  });
-
-  describe('prepareUpload', () => {
-    it('should throw error when file bigger than 2MB is supplied', () => {
-      let file = Buffer.alloc(3*1024*1024)
-      expect(function(){
-        notifyClient.prepareUpload(file);
-      }).to.throw("Document is larger than 2MB.")
     });
   });
 
@@ -199,48 +168,6 @@ describe('notification api', () => {
     });
   });
 
-  describe('sendLetter', () => {
-
-    it('should send a letter', () => {
-
-      let templateId = '123',
-        options = {
-          personalisation: {
-            address_line_1: 'Mr Tester',
-            address_line_2: '1 Test street',
-            postcode: 'NW1 2UN'
-          },
-        },
-        data = {
-          template_id: templateId,
-          personalisation: options.personalisation
-        };
-
-      notifyAuthNock
-      .post('/v2/notifications/letter', data)
-      .reply(200, {hooray: 'bkbbk'});
-
-      return notifyClient.sendLetter(templateId, options)
-      .then(function (response) {
-        expect(response.statusCode).to.equal(200);
-      });
-    });
-
-    it('should reject options dicts with unknown options', () => {
-      let templateId = '123',
-        // old personalisation dict
-        options = {
-          address_line_1: 'Mr Tester',
-          address_line_2: '1 Test street',
-          postcode: 'NW1 2UN',
-          reference: 'ABC123'
-        };
-      return notifyClient.sendLetter(templateId, options)
-        .catch((err) => expect(err.message).to.include('["address_line_1","address_line_2","postcode"]'));
-    });
-
-  });
-
   it('should get notification by id', () => {
 
     let notificationId = 'wfdfdgf';
@@ -253,33 +180,6 @@ describe('notification api', () => {
       .then(function (response) {
         expect(response.statusCode).to.equal(200);
       });
-  });
-
-
-  describe('sendPrecompiledLetter', () => {
-
-    it('should send a precompiled letter', () => {
-      let pdf_file = Buffer.from("%PDF-1.5 testpdf"),
-      reference = "HORK",
-      data = {"reference": reference, "content": pdf_file.toString('base64')}
-
-      notifyAuthNock
-      .post('/v2/notifications/letter', data)
-      .reply(200, {hiphip: 'hooray'});
-
-      return notifyClient.sendPrecompiledLetter(reference, pdf_file)
-      .then(function (response) {
-        expect(response.statusCode).to.equal(200);
-      });
-    });
-
-    it('should throw error when file bigger than 5MB is supplied', () => {
-      let file = Buffer.alloc(6*1024*1024),
-      reference = "HORK"
-      expect(function(){
-        notifyClient.sendPrecompiledLetter(reference, file);
-      }).to.throw("Document is larger than 5MB.")
-    });
   });
 
 
@@ -305,7 +205,7 @@ describe('notification api', () => {
       .get('/v2/notifications?reference=' + reference)
       .reply(200, {hooray: 'bkbbk'});
 
-      return notifyClient.getNotifications(undefined, undefined, reference)
+      return notifyClient.getNotifications({ reference })
       .then(function (response) {
         expect(response.statusCode).to.equal(200);
       });
@@ -319,7 +219,7 @@ describe('notification api', () => {
       .get('/v2/notifications?status=' + status)
       .reply(200, {hooray: 'bkbbk'});
 
-      return notifyClient.getNotifications(undefined, 'failed')
+      return notifyClient.getNotifications({ status: 'failed' })
       .then(function (response) {
         expect(response.statusCode).to.equal(200);
       });
@@ -334,7 +234,7 @@ describe('notification api', () => {
       .get('/v2/notifications?template_type=' + templateType + '&status=' + status)
       .reply(200, {hooray: 'bkbbk'});
 
-      return notifyClient.getNotifications(templateType, status)
+      return notifyClient.getNotifications({ templateType, status })
       .then(function (response) {
         expect(response.statusCode).to.equal(200);
       });
@@ -350,7 +250,7 @@ describe('notification api', () => {
       .get('/v2/notifications?template_type=' + templateType + '&status=' + status + '&reference=' + reference)
       .reply(200, {hooray: 'bkbbk'});
 
-      return notifyClient.getNotifications(templateType, status, reference)
+      return notifyClient.getNotifications({ templateType, status, reference })
       .then(function (response) {
         expect(response.statusCode).to.equal(200);
       });
@@ -371,7 +271,7 @@ describe('notification api', () => {
       )
       .reply(200, {hooray: 'bkbbk'});
 
-      return notifyClient.getNotifications(templateType, status, reference, olderThanId)
+      return notifyClient.getNotifications({ templateType, status, reference, olderThanId })
       .then(function (response) {
         expect(response.statusCode).to.equal(200);
       });
@@ -426,7 +326,7 @@ describe('notification api', () => {
 
     it('should get all templates with unspecified template type', () => {
 
-      let templateType = 'sms'
+      let templateType = 'sms';
 
       notifyAuthNock
       .get('/v2/templates?type=' + templateType)
@@ -442,7 +342,7 @@ describe('notification api', () => {
     it('should preview template by id with personalisation', () => {
 
       let templateId = '35836a9e-5a97-4d99-8309-0c5a2c3dbc72';
-      let payload = {name: 'Foo' }
+      let payload = {name: 'Foo' };
       let expectedPersonalisation = {personalisation: payload };
 
       notifyAuthNock
@@ -485,7 +385,7 @@ describe('notification api', () => {
 
   it('should get up to next 250 received texts with a reference older than a given message id', function() {
 
-    var olderThanId = '35836a9e-5a97-4d99-8309-0c5a2c3dbc72';
+    const olderThanId = '35836a9e-5a97-4d99-8309-0c5a2c3dbc72';
 
     notifyAuthNock
       .get('/v2/received-text-messages?older_than=' + olderThanId)

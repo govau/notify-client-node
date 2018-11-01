@@ -6,7 +6,7 @@
     "properties": {
         "id": {"$ref": "definitions.json#/uuid"},
         "name": {"type": "string"},
-        "type": {"enum": ["sms", "email", "letter"] },
+        "type": {"enum": ["sms", "email"] },
         "created_at": {
             "format": "date-time",
             "type": "string",

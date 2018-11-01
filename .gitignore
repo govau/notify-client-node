@@ -1,6 +1,11 @@
-node_modules
+node_modules/
 .idea/
-environment.sh
-package-lock.json
+built/
+dist/
+
+.env
+.envrc
 .eslintrc.js
+.npmrc
 docker.env
+environment.sh

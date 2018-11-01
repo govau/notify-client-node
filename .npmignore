@@ -1,0 +1,14 @@
+.idea/
+docker/
+node_modules/
+script/
+spec/
+src/
+
+
+.env
+.envrc
+index.ts
+Makefile
+tsconfig.json
+

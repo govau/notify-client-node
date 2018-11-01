@@ -1,4 +1,4 @@
-<!--Thanks for contributing to GOV.UK Notify. Using this template to write your pull request message will help get it merged as soon as possible. -->
+<!--Thanks for contributing to GOV.AU Notify. Using this template to write your pull request message will help get it merged as soon as possible. -->
 
 ## What problem does the pull request solve?
 <!--- Describe why you’re making this change -->
@@ -16,4 +16,3 @@
   - `package.json`
 - [ ] I've added new environment variables in
   - `CONTRIBUTING.md`
-  - `notifications-node-client/scripts/generate_docker_env.sh`
