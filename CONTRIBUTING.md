@@ -36,4 +36,4 @@ To run the integration tests:
 
 `make integration-test`
 
-The integration tests are used to test the contract of the response to all the api calls, ensuring the latest version of notifications-api do not break the contract of the notify-client.
+The integration tests are used to test the contract of the response to all the api calls, ensuring the latest version of notify-api do not break the contract of the notify-client.

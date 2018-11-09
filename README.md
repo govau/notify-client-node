@@ -1,19 +1,19 @@
-# GOV.AU Notify Node.js client
+# Notify Node.js client
 
-This documentation is for developers interested in using this Node.js client to integrate their government service with GOV.AU Notify.
+This documentation is for developers interested in using a Node.js client to integrate with Notify.
 
 ## Table of Contents
 
-* [Installation](#installation)
-* [Getting started](#getting-started)
-* [Send messages](#send-messages)
-* [Get the status of one message](#get-the-status-of-one-message)
-* [Get the status of all messages](#get-the-status-of-all-messages)
-* [Get a template by ID](#get-a-template-by-id)
-* [Get a template by ID and version](#get-a-template-by-id-and-version)
-* [Get all templates](#get-all-templates)
-* [Generate a preview template](#generate-a-preview-template)
-* [Tests](#tests)
+- [Installation](#installation)
+- [Getting started](#getting-started)
+- [Send messages](#send-messages)
+- [Get the status of one message](#get-the-status-of-one-message)
+- [Get the status of all messages](#get-the-status-of-all-messages)
+- [Get a template by ID](#get-a-template-by-id)
+- [Get a template by ID and version](#get-a-template-by-id-and-version)
+- [Get all templates](#get-all-templates)
+- [Generate a preview template](#generate-a-preview-template)
+- [Tests](#tests)
 
 ## Installation
 
@@ -23,12 +23,21 @@ npm install --save @govau-platforms/notify-client
 
 ## Getting started
 
-```javascript
-const { Client } = require('@govau-platforms/notify-client');
-const notifyClient = new Client(apiKey);
+Typescript:
+
+```typescript
+import { Client } from "@govau-platforms/notify-client";
+const notifyClient = new Client({ apiKey: "xxxxx" });
 ```
 
-Generate an API key by logging in to [GOV.AU Notify](https://notify.gov.au) and going to the _API integration_ page.
+Javascript:
+
+```javascript
+const { Client } = require("@govau-platforms/notify-client");
+const notifyClient = new Client({ apiKey: "xxxxx" });
+```
+
+Generate an API key by logging in to [Notify.gov.au](https://notify.gov.au) and going to the _API integration_ page.
 
 ### Connect through a proxy (optional)
 
@@ -49,13 +58,13 @@ Click here to expand for more information.
 
 ```javascript
 notifyClient
-	.sendSms(templateId, phoneNumber, {
-			personalisation: personalisation,
-			reference: reference,
-			smsSenderId: smsSenderId})
-	.then(response => console.log(response))
-	.catch(err => console.error(err))
-;
+  .sendTextMessage(templateId, phoneNumber, {
+    personalisation: personalisation,
+    reference: reference,
+    smsSenderId: smsSenderId
+  })
+  .then(response => console.log(response))
+  .catch(err => console.error(err));
 ```
 
 </details>
@@ -88,12 +97,12 @@ Click here to expand for more information.
 
 Otherwise the client will return an error `err`:
 
-|`err.error.status_code`|`err.error.errors`|
-|:---|:---|
-|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM of 10 requests per 10 seconds"`<br>`}]`|
-|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (50) for today"`<br>`}]`|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient using a team-only API key"`<br>`]}`|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient when service is in trial mode - see https://notify.gov.au/trial-mode"`<br>`}]`|
+| `err.error.status_code` | `err.error.errors`                                                                                                                                                |
+| :---------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `429`                   | `[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM of 10 requests per 10 seconds"`<br>`}]`                                |
+| `429`                   | `[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (50) for today"`<br>`}]`                                                          |
+| `400`                   | `[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient using a team-only API key"`<br>`]}`                                            |
+| `400`                   | `[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient when service is in trial mode - see https://notify.gov.au/trial-mode"`<br>`}]` |
 
 </details>
 
@@ -113,6 +122,7 @@ The phone number of the recipient, only required for sms notifications.
 Find by clicking **API info** for the template you want to send.
 
 ##### `options`
+
 ###### `reference`
 
 An optional identifier you generate. The `reference` can be used as a unique reference for the notification. Because Notify does not require this reference to be unique you could also use this reference to identify a batch or group of notifications.
@@ -124,10 +134,10 @@ You can omit this argument if you do not require a reference for the notificatio
 If a template has placeholders, you need to provide their values, for example:
 
 ```javascript
-personalisation={
-    'first_name': 'Amala',
-    'reference_number': '300241',
-}
+personalisation = {
+  first_name: "Amala",
+  reference_number: "300241"
+};
 ```
 
 This does not need to be provided if your template does not contain placeholders.
@@ -142,7 +152,6 @@ Example usage with optional reference -
 
 </details>
 
-
 ### Email
 
 #### Method
@@ -154,17 +163,16 @@ Click here to expand for more information.
 
 ```javascript
 notifyClient
-	.sendEmail(templateId, emailAddress, {
-			personalisation: personalisation,
-			reference: reference,
-			emailReplyToId: emailReplyToId})
-    .then(response => console.log(response))
-    .catch(err => console.error(err))
-;
+  .sendEmail(templateId, emailAddress, {
+    personalisation: personalisation,
+    reference: reference,
+    emailReplyToId: emailReplyToId
+  })
+  .then(response => console.log(response))
+  .catch(err => console.error(err));
 ```
 
 </details>
-
 
 #### Response
 
@@ -192,17 +200,17 @@ Click here to expand for more information.
     }
 }
 ```
+
 Otherwise the client will return an error `error object`:
 
-|`status_code`|`errors`|
-|:---|:---|
-|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM of 10 requests per 10 seconds"`<br>`}]`|
-|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (50) for today"`<br>`}]`|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient using a team-only API key"`<br>`]}`|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient when service is in trial mode - see https://notify.gov.au/trial-mode"`<br>`}]`|
+| `status_code` | `errors`                                                                                                                                                          |
+| :------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `429`         | `[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM of 10 requests per 10 seconds"`<br>`}]`                                |
+| `429`         | `[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (50) for today"`<br>`}]`                                                          |
+| `400`         | `[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient using a team-only API key"`<br>`]}`                                            |
+| `400`         | `[{`<br>`"error": "BadRequestError",`<br>`"message": "Can"t send to this recipient when service is in trial mode - see https://notify.gov.au/trial-mode"`<br>`}]` |
 
 </details>
-
 
 #### Arguments
 
@@ -220,6 +228,7 @@ The email address of the recipient, only required for email notifications.
 Find by clicking **API info** for the template you want to send.
 
 ##### `options`
+
 ###### `reference`
 
 An optional identifier you generate. The `reference` can be used as a unique reference for the notification. Because Notify does not require this reference to be unique you could also use this reference to identify a batch or group of notifications.
@@ -237,10 +246,10 @@ If you omit this argument your default email reply-to address will be set for th
 If a template has placeholders, you need to provide their values, for example:
 
 ```javascript
-personalisation={
-    'first_name': 'Amala',
-    'application_number': '300241',
-}
+personalisation = {
+  first_name: "Amala",
+  application_number: "300241"
+};
 ```
 
 ##### `emailReplyToId`
@@ -251,6 +260,7 @@ If you omit this argument your default email reply-to address will be set for th
 </details>
 
 ### Send a document by email
+
 Send files without the need for email attachments.
 
 <details>
@@ -282,19 +292,23 @@ Click here to expand for more information.
 </summary>
 
 ```javascript
-var fs = require('fs');
+var fs = require("fs");
 
-fs.readFile('path/to/document.pdf', function(err, pdf_file) {
-	console.log(err);
-	notifyClient.sendEmail(templateId, emailAddress, {
-    personalisation: {
-        first_name: 'Amala',
-        application_date: '2018-01-01',
+fs.readFile("path/to/document.pdf", function(err, pdf_file) {
+  console.log(err);
+  notifyClient
+    .sendEmail(templateId, emailAddress, {
+      personalisation: {
+        first_name: "Amala",
+        application_date: "2018-01-01",
         link_to_document: notifyClient.prepareUpload(pdf_file)
-    }
-	}).then(response => console.log(response.body)).catch(err => console.error(err))
+      }
+    })
+    .then(response => console.log(response.body))
+    .catch(err => console.error(err));
 });
 ```
+
 </details>
 
 #### Response
@@ -323,6 +337,7 @@ Click here to expand for more information.
   }
 }
 ```
+
 </details>
 
 #### Error codes
@@ -334,21 +349,20 @@ If the request is not successful, the client returns an error `error object`:
 Click here to expand for more information.
 </summary>
 
-|error.status_code|error.message|How to fix|
-|:---|:---|:---|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient using a team-only API key"`<br>`]}`|Use the correct type of [API key](#api-keys)|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient when service is in trial mode - see https://notify.gov.au/trial-mode"`<br>`}]`|Your service cannot send this notification in [trial mode](https://notify.gov.au/features/using-notify#trial-mode)|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Unsupported document type '{}'. Supported types are: {}"`<br>`}]`|The document you upload must be a PDF file|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"message": "Document didn't pass the virus scan"`<br>`}]`|The document you upload must be virus free|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`|Check your system clock|
-|`403`|`[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`|Use the correct type of [API key](#api-keys)|
-|`429`|`[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`|Refer to [API rate limits](#api-rate-limits) for more information|
-|`429`|`[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`|Refer to [service limits](#service-limits) for the limit number|
-|`500`|`[{`<br>`"error": "Exception",`<br>`"message": "Internal server error"`<br>`}]`|Notify was unable to process the request, resend your notification.|
-|`N/A`|`[{`<br>`"error": "Exception",`<br>`"message": "Document is larger than 2MB."`<br>`}]`|The file you tried to upload was above the 2MB limit. Send a file that weighs less than 2MB.|
+| error.status_code | error.message                                                                                                                                                     | How to fix                                                                                                         |
+| :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------- |
+| `400`             | `[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient using a team-only API key"`<br>`]}`                                            | Use the correct type of [API key](#api-keys)                                                                       |
+| `400`             | `[{`<br>`"error": "BadRequestError",`<br>`"message": "Can't send to this recipient when service is in trial mode - see https://notify.gov.au/trial-mode"`<br>`}]` | Your service cannot send this notification in [trial mode](https://notify.gov.au/features/using-notify#trial-mode) |
+| `400`             | `[{`<br>`"error": "BadRequestError",`<br>`"message": "Unsupported document type '{}'. Supported types are: {}"`<br>`}]`                                           | The document you upload must be a PDF file                                                                         |
+| `400`             | `[{`<br>`"error": "BadRequestError",`<br>`"message": "Document didn't pass the virus scan"`<br>`}]`                                                               | The document you upload must be virus free                                                                         |
+| `403`             | `[{`<br>`"error": "AuthError",`<br>`"message": "Error: Your system clock must be accurate to within 30 seconds"`<br>`}]`                                          | Check your system clock                                                                                            |
+| `403`             | `[{`<br>`"error": "AuthError",`<br>`"message": "Invalid token: signature, api token not found"`<br>`}]`                                                           | Use the correct type of [API key](#api-keys)                                                                       |
+| `429`             | `[{`<br>`"error": "RateLimitError",`<br>`"message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"`<br>`}]`                    | Refer to [API rate limits](#api-rate-limits) for more information                                                  |
+| `429`             | `[{`<br>`"error": "TooManyRequestsError",`<br>`"message": "Exceeded send limits (LIMIT NUMBER) for today"`<br>`}]`                                                | Refer to [service limits](#service-limits) for the limit number                                                    |
+| `500`             | `[{`<br>`"error": "Exception",`<br>`"message": "Internal server error"`<br>`}]`                                                                                   | Notify was unable to process the request, resend your notification.                                                |
+| `N/A`             | `[{`<br>`"error": "Exception",`<br>`"message": "Document is larger than 2MB."`<br>`}]`                                                                            | The file you tried to upload was above the 2MB limit. Send a file that weighs less than 2MB.                       |
 
 </details>
-
 
 ## Get the status of one message
 
@@ -361,14 +375,12 @@ Click here to expand for more information.
 
 ```javascript
 notifyClient
-	.getNotificationById(notificationId)
-	.then((response) => { })
-	.catch((err) => {})
-;
+  .getNotificationById(notificationId)
+  .then(response => {})
+  .catch(err => {});
 ```
 
 </details>
-
 
 #### Response
 
@@ -409,10 +421,10 @@ If the request is successful, `response` will be an `object`:
 
 Otherwise the client will return an error `error object`:
 
-|`status_code`|`errors`|
-|:---|:---|
-|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|
-|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]`|
+| `status_code` | `errors`                                                                               |
+| :------------ | :------------------------------------------------------------------------------------- |
+| `404`         | `[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`          |
+| `400`         | `[{`<br>`"error": "ValidationError",`<br>`"message": "id is not a valid UUID"`<br>`}]` |
 
 </details>
 
@@ -440,13 +452,17 @@ Click here to expand for more information.
 
 ```javascript
 notifyClient
-	.getNotifications(templateType, status, reference, olderThan)
-	.then((response) => { })
-	.catch((err) => {})
-;
+  .getNotifications({
+    templateType: "email",
+    status: "delivered",
+    reference: "client-ref-no",
+    olderThanId: "xxxxx"
+  })
+  .then(response => {})
+  .catch(err => {});
 ```
-</details>
 
+</details>
 
 #### Response
 
@@ -491,13 +507,12 @@ Click here to expand for more information.
 }
 ```
 
-|`status_code`|`errors`|
-|:---|:---|
-|`400`|`[{`<br>`"error": "ValidationError",`<br>`"message": "bad status is not one of [created, sending, delivered, pending, failed, technical-failure, temporary-failure, permanent-failure]"`<br>`}]`|
-|`400`|`[{`<br>`"error": "Apple is not one of [sms, email]"`<br>`}]`|
+| `status_code` | `errors`                                                                                                                                                                                         |
+| :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `400`         | `[{`<br>`"error": "ValidationError",`<br>`"message": "bad status is not one of [created, sending, delivered, pending, failed, technical-failure, temporary-failure, permanent-failure]"`<br>`}]` |
+| `400`         | `[{`<br>`"error": "Apple is not one of [sms, email]"`<br>`}]`                                                                                                                                    |
 
 </details>
-
 
 #### Arguments
 
@@ -510,34 +525,34 @@ Click here to expand for more information.
 
 If omitted all messages are returned. Otherwise you can filter by:
 
-* `email`
-* `sms`
+- `email`
+- `sms`
 
 ##### `status`
 
-__email__
+**email**
 
 You can filter by:
 
-* `sending` - the message is queued to be sent by the provider.
-* `delivered` - the message was successfully delivered.
-* `failed` - this will return all failure statuses `permanent-failure`, `temporary-failure` and `technical-failure`.
-* `permanent-failure` - the provider was unable to deliver message, email does not exist; remove this recipient from your list.
-* `temporary-failure` - the provider was unable to deliver message, email box was full; you can try to send the message again.
-* `technical-failure` - Notify had a technical failure; you can try to send the message again.
+- `sending` - the message is queued to be sent by the provider.
+- `delivered` - the message was successfully delivered.
+- `failed` - this will return all failure statuses `permanent-failure`, `temporary-failure` and `technical-failure`.
+- `permanent-failure` - the provider was unable to deliver message, email does not exist; remove this recipient from your list.
+- `temporary-failure` - the provider was unable to deliver message, email box was full; you can try to send the message again.
+- `technical-failure` - Notify had a technical failure; you can try to send the message again.
 
 You can omit this argument to ignore this filter.
 
-__text message__
+**text message**
 
 You can filter by:
 
-* `sending` - the message is queued to be sent by the provider.
-* `delivered` - the message was successfully delivered.
-* `failed` - this will return all failure statuses `permanent-failure`, `temporary-failure` and `technical-failure`.
-* `permanent-failure` - the provider was unable to deliver message, phone number does not exist; remove this recipient from your list.
-* `temporary-failure` - the provider was unable to deliver message, the phone was turned off; you can try to send the message again.
-* `technical-failure` - Notify had a technical failure; you can try to send the message again.
+- `sending` - the message is queued to be sent by the provider.
+- `delivered` - the message was successfully delivered.
+- `failed` - this will return all failure statuses `permanent-failure`, `temporary-failure` and `technical-failure`.
+- `permanent-failure` - the provider was unable to deliver message, phone number does not exist; remove this recipient from your list.
+- `temporary-failure` - the provider was unable to deliver message, the phone was turned off; you can try to send the message again.
+- `technical-failure` - Notify had a technical failure; you can try to send the message again.
 
 You can omit this argument to ignore this filter.
 
@@ -545,12 +560,11 @@ You can omit this argument to ignore this filter.
 
 This is the `reference` you gave at the time of sending the notification. This can be omitted to ignore the filter.
 
-##### `olderThan`
+##### `olderThanId`
 
 If omitted all messages are returned. Otherwise you can filter to retrieve all notifications older than the given notification `id`.
 
 </details>
-
 
 ## Get a template by ID
 
@@ -563,14 +577,12 @@ Click here to expand for more information.
 
 ```javascript
 notifyClient
-    .getTemplateById(templateId)
-    .then((response) => { })
-    .catch((err) => {})
-;
+  .getTemplateById(templateId)
+  .then(response => {})
+  .catch(err => {});
 ```
 
 </details>
-
 
 #### Response
 
@@ -597,12 +609,11 @@ Click here to expand for more information.
 
 Otherwise the client will return an error `error object`:
 
-|`status_code`|`errors`|
-|:---|:---|
-|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]`|
+| `status_code` | `errors`                                                                      |
+| :------------ | :---------------------------------------------------------------------------- |
+| `404`         | `[{`<br>`"error": "NoResultFound",`<br>`"message": "No result found"`<br>`}]` |
 
 </details>
-
 
 #### Arguments
 
@@ -617,7 +628,6 @@ Find by clicking **API info** for the template you want to send.
 
 </details>
 
-
 ## Get a template by ID and version
 
 #### Method
@@ -629,14 +639,12 @@ Click here to expand for more information.
 
 ```javascript
 notifyClient
-    .getTemplateByIdAndVersion(templateId, version)
-    .then((response) => { })
-    .catch((err) => {})
-;
+  .getTemplateByIdAndVersion(templateId, version)
+  .then(response => {})
+  .catch(err => {});
 ```
 
 </details>
-
 
 #### Response
 
@@ -660,14 +668,14 @@ Click here to expand for more information.
     "subject": "null|email_subject"
 }
 ```
+
 Otherwise the client will return an error `error object`:
 
-|`status_code`|`errors`|
-|:---|:---|
-|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"No result found"`<br>`}]`|
+| `status_code` | `errors`                                                           |
+| :------------ | :----------------------------------------------------------------- |
+| `404`         | `[{`<br>`"error": "NoResultFound",`<br>`"No result found"`<br>`}]` |
 
 </details>
-
 
 #### Arguments
 
@@ -697,15 +705,14 @@ Click here to expand for more information.
 
 ```javascript
 notifyClient
-    .getAllTemplates(templateType)
-    .then((response) => { })
-    .catch((err) => {})
-;
+  .getAllTemplates(templateType)
+  .then(response => {})
+  .catch(err => {});
 ```
+
 This will return the latest version for each template.
 
 </details>
-
 
 #### Response
 
@@ -747,7 +754,6 @@ If no templates exist for a template type or there no templates for a service, t
 
 </details>
 
-
 #### Arguments
 
 <details>
@@ -759,11 +765,10 @@ Click here to expand for more information.
 
 If omitted all messages are returned. Otherwise you can filter by:
 
-* `email`
-* `sms`
+- `email`
+- `sms`
 
 </details>
-
 
 ## Generate a preview template
 
@@ -775,16 +780,14 @@ Click here to expand for more information.
 </summary>
 
 ```javascript
-personalisation = { "foo": "bar" };
+personalisation = { foo: "bar" };
 notifyClient
-    .previewTemplateById(templateId, personalisation)
-    .then((response) => { })
-    .catch((err) => {})
-;
+  .previewTemplateById(templateId, personalisation)
+  .then(response => {})
+  .catch(err => {});
 ```
 
 </details>
-
 
 #### Response
 
@@ -807,13 +810,12 @@ If the request is successful, `response` will be an `object`:
 
 Otherwise the client will return an error `error object`:
 
-|`status_code`|`errors`|
-|:---|:---|
-|`400`|`[{`<br>`"error": "BadRequestError",`<br>`"Missing personalisation: [name]"`<br>`}]`|
-|`404`|`[{`<br>`"error": "NoResultFound",`<br>`"No result found"`<br>`}]`|
+| `status_code` | `errors`                                                                             |
+| :------------ | :----------------------------------------------------------------------------------- |
+| `400`         | `[{`<br>`"error": "BadRequestError",`<br>`"Missing personalisation: [name]"`<br>`}]` |
+| `404`         | `[{`<br>`"error": "NoResultFound",`<br>`"No result found"`<br>`}]`                   |
 
 </details>
-
 
 #### Arguments
 
@@ -831,10 +833,10 @@ Find by clicking **API info** for the template you want to send.
 If a template has placeholders you need to provide their values. For example:
 
 ```javascript
-personalisation={
-    'first_name': 'Amala',
-    'reference_number': '300241',
-}
+personalisation = {
+  first_name: "Amala",
+  reference_number: "300241"
+};
 ```
 
 Otherwise the parameter can be omitted or `undefined` can be passed in its place.
@@ -854,14 +856,12 @@ Click here to expand for more information.
 
 ```javascript
 notifyClient
-    .getReceivedTexts(olderThan)
-    .then((response) => { })
-    .catch((err) => {})
-;
+  .getReceivedTexts(olderThanId)
+  .then(response => {})
+  .catch(err => {});
 ```
 
 </details>
-
 
 #### Response
 
@@ -895,7 +895,6 @@ If the request is successful, `response` will be a `json object`:
 
 </details>
 
-
 #### Arguments
 
 <details>
@@ -903,7 +902,7 @@ If the request is successful, `response` will be a `json object`:
 Click here to expand for more information.
 </summary>
 
-##### `olderThan`
+##### `olderThanId`
 
 If omitted, returns 250 of the latest received text messages. Otherwise the next 250 received text messages older than the given id are returned.
 

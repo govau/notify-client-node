@@ -2,14 +2,11 @@
   "compilerOptions": {
     "declaration": true,
     "esModuleInterop": true,
-    "lib": ["es6"],
+    "lib": ["es2017"],
     "module": "commonjs",
     "outDir": "./dist",
     "resolveJsonModule": true,
     "target": "es5"
   },
-  "include": [
-    "index.ts",
-    "./src/**/*"
-  ]
+  "include": ["index.ts", "./src/**/*"]
 }

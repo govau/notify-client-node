@@ -1,15 +1,14 @@
-import { Secret, sign } from 'jsonwebtoken';
+import { Secret, sign } from "jsonwebtoken";
 
-export const createGovAuNotifyToken = (secret: Secret, client_id: string) => {
-
+export const createJwtToken = (secret: Secret, clientId: string) => {
   return sign(
     {
-      iss: client_id,
+      iss: clientId,
       iat: Math.round(Date.now() / 1000)
     },
     secret,
     {
-      header: {typ: "JWT", alg: "HS256"}
+      header: { typ: "JWT", alg: "HS256" }
     }
   );
 };

@@ -5,11 +5,11 @@ SHELL         := /bin/bash
 help:
 	@cat $(MAKEFILE_LIST) | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-ci:
-	$(NPM) ci --production
-
-ci-dev:
+install-ci:
 	$(NPM) ci
+
+fmt:
+	$(NPM) run fmt
 
 install:
 	$(NPM) install --production
@@ -34,5 +34,5 @@ clean:
 
 .PHONY:
 	install install-dev build \
-	test integration-test publish-to-npmjs \
-	ci ci-dev clean
+	test integration-test publish \
+	install-ci clean

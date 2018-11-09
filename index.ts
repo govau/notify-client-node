@@ -1,3 +1,3 @@
-import NotifyClient from './src/notification';
+import Client from "./src/client";
 
-export { NotifyClient as Client };
+export { Client };

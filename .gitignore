@@ -1,11 +1,7 @@
-node_modules/
-.idea/
-built/
-dist/
+node_modules
+.idea
+dist
 
 .env
-.envrc
 .eslintrc.js
 .npmrc
-docker.env
-environment.sh
