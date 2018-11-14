@@ -58,7 +58,7 @@ Click here to expand for more information.
 
 ```javascript
 notifyClient
-  .sendTextMessage(templateId, phoneNumber, {
+  .sendSms(templateId, phoneNumber, {
     personalisation: personalisation,
     reference: reference,
     smsSenderId: smsSenderId

@@ -103,7 +103,7 @@ describer("notification api with a live service", function() {
         options = { personalisation: personalisation };
 
       return notifyClient
-        .sendTextMessage(smsTemplateId, phoneNumber, options)
+        .sendSms(smsTemplateId, phoneNumber, options)
         .then(response => {
           response.statusCode.should.equal(201);
           expect(response.body).to.be.jsonSchema(
@@ -126,7 +126,7 @@ describer("notification api with a live service", function() {
 
       should.exist(smsSenderId);
       return whitelistNotifyClient
-        .sendTextMessage(smsTemplateId, phoneNumber, options)
+        .sendSms(smsTemplateId, phoneNumber, options)
         .then(response => {
           response.statusCode.should.equal(201);
           expect(response.body).to.be.jsonSchema(

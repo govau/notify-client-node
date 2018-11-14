@@ -105,7 +105,7 @@ describe("notification api", () => {
     });
   });
 
-  describe("sendTextMessage", () => {
+  describe("sendSms", () => {
     it("should send an sms", () => {
       let phoneNo = "07525755555",
         templateId = "123",
@@ -123,7 +123,7 @@ describe("notification api", () => {
         .reply(200, { hooray: "bkbbk" });
 
       return notifyClient
-        .sendTextMessage(templateId, phoneNo, options)
+        .sendSms(templateId, phoneNo, options)
         .then(function(response) {
           expect(response.statusCode).to.equal(200);
         });
@@ -148,7 +148,7 @@ describe("notification api", () => {
         .reply(200, { hooray: "bkbbk" });
 
       return notifyClient
-        .sendTextMessage(templateId, phoneNo, options)
+        .sendSms(templateId, phoneNo, options)
         .then(function(response) {
           expect(response.statusCode).to.equal(200);
         });
@@ -164,7 +164,7 @@ describe("notification api", () => {
           reference: "ABC123"
         };
       return notifyClient
-        .sendTextMessage(templateId, phoneNumber, options)
+        .sendSms(templateId, phoneNumber, options)
         .catch(err =>
           expect(err.message).to.include('["firstname","surname"]')
         );

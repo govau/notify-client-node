@@ -38,7 +38,7 @@ export default class Client {
     );
   }
 
-  public sendTextMessage(templateId: string, phoneNumber: string, options?: any): any {
+  public sendSms(templateId: string, phoneNumber: string, options?: any): any {
     options = options || {};
     const err = checkOptionsKeys(
       ["personalisation", "reference", "smsSenderId"],
