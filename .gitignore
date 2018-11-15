@@ -1,6 +1,7 @@
 node_modules
-.idea/
-environment.sh
-package-lock.json
+.idea
+dist
+
+.env
 .eslintrc.js
-docker.env
+.npmrc

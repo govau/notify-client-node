@@ -5,7 +5,7 @@
     "title": "reponse v2/template/{id}/preview",
     "properties": {
         "id": {"$ref": "definitions.json#/uuid"},
-        "type": {"enum": ["sms", "email", "letter"] },
+        "type": {"enum": ["sms", "email"] },
         "version": {"type": "integer"},
         "body": {"type": "string"},
         "subject": {"type": ["string", "null"]}

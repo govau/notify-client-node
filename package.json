@@ -1,21 +1,31 @@
 {
-  "name": "notifications-node-client",
-  "version": "4.5.1",
-  "description": "GOV.UK Notify Node.js client ",
-  "main": "index.js",
-  "scripts": {
-    "test": "./node_modules/.bin/mocha \"spec/**/*.js\"",
-    "integration": "./node_modules/.bin/mocha spec/integration/test.js"
-  },
-  "author": "GDS developers",
+  "name": "@govau-platforms/notify-client",
+  "author": "Digital Transformation Agency",
+  "version": "0.0.5",
+  "homepage": "https://github.com/govau/notify-client-node",
+  "description": "Notify.gov.au Node.js client ",
   "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "./node_modules/.bin/tsc --build",
+    "clean": "rimraf dist/",
+    "fmt": "./node_modules/.bin/prettier --write **/* ",
+    "test": "./node_modules/.bin/mocha --require ts-node/register \"spec/**/*.ts\""
+  },
   "dependencies": {
+    "@types/jsonwebtoken": "^8.3.0",
+    "@types/mockdate": "^2.0.0",
+    "@types/request-promise": "^4.1.42",
     "jsonwebtoken": "8.2.1",
     "request": "2.87.0",
     "request-promise": "4.2.2",
     "underscore": "^1.9.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/chai-json-schema": "^1.4.3",
+    "@types/mocha": "^5.2.5",
     "chai": "4.1.2",
     "chai-as-promised": "7.1.1",
     "chai-json-schema": "1.5.0",
@@ -23,6 +33,10 @@
     "mocha": "5.2.0",
     "mockdate": "2.0.2",
     "nock": "9.2.6",
-    "optimist": "0.6.1"
+    "optimist": "0.6.1",
+    "prettier": "1.15.1",
+    "rimraf": "^2.6.2",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.1.6"
   }
 }
