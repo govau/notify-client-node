@@ -1,7 +1,7 @@
 {
   "name": "@govau-platforms/notify-client",
   "author": "Digital Transformation Agency",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "homepage": "https://github.com/govau/notify-client-node",
   "description": "Notify.gov.au Node.js client ",
   "license": "MIT",
@@ -14,29 +14,29 @@
     "test": "./node_modules/.bin/mocha --require ts-node/register \"spec/**/*.ts\""
   },
   "dependencies": {
-    "@types/jsonwebtoken": "^8.3.0",
-    "@types/mockdate": "^2.0.0",
-    "@types/request-promise": "^4.1.42",
-    "jsonwebtoken": "8.2.1",
-    "request": "2.87.0",
-    "request-promise": "4.2.2",
-    "underscore": "^1.9.0"
+    "@types/jsonwebtoken": "8.3.5",
+    "@types/mockdate": "2.0.0",
+    "@types/request-promise": "4.1.45",
+    "jsonwebtoken": "8.5.1",
+    "request": "2.88.0",
+    "request-promise": "4.2.5",
+    "underscore": "1.9.1"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/chai-json-schema": "^1.4.3",
-    "@types/mocha": "^5.2.5",
-    "chai": "4.1.2",
+    "@types/chai": "4.2.7",
+    "@types/chai-json-schema": "1.4.5",
+    "@types/mocha": "5.2.7",
+    "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
-    "chai-json-schema": "1.5.0",
-    "jsonschema": "1.2.4",
+    "chai-json-schema": "1.5.1",
+    "jsonschema": "1.2.5",
     "mocha": "5.2.0",
-    "mockdate": "2.0.2",
+    "mockdate": "2.0.5",
     "nock": "9.2.6",
     "optimist": "0.6.1",
     "prettier": "1.19.1",
-    "rimraf": "^2.6.2",
-    "ts-node": "^7.0.1",
-    "typescript": "^3.1.6"
+    "rimraf": "3.0.0",
+    "ts-node": "8.5.4",
+    "typescript": "3.7.3"
   }
 }

@@ -1,3 +1,9 @@
+## [5.0.3] - 2019-12-19
+
+### Changed
+
+- Upgrade package.json dependencies
+
 ## [5.0.2] - 2019-12-18
 
 ### Changed
