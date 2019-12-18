@@ -1,7 +1,7 @@
 {
   "name": "@govau-platforms/notify-client",
   "author": "Digital Transformation Agency",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "homepage": "https://github.com/govau/notify-client-node",
   "description": "Notify.gov.au Node.js client ",
   "license": "MIT",
@@ -34,7 +34,7 @@
     "mockdate": "2.0.2",
     "nock": "9.2.6",
     "optimist": "0.6.1",
-    "prettier": "1.15.1",
+    "prettier": "1.19.1",
     "rimraf": "^2.6.2",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.6"
