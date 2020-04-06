@@ -30,6 +30,9 @@ describer("notification api with a live service", function() {
   const smsSenderId = process.env.SMS_SENDER_ID || undefined;
   const emailTemplateId = process.env.EMAIL_TEMPLATE_ID;
   const emailReplyToId = process.env.EMAIL_REPLY_TO_ID || undefined;
+  const statusCallbackUrl = process.env.STATUS_CALLBACK_URL || undefined;
+  const statusCallbackBearerToken =
+    process.env.STATUS_CALLBACK_BEARER_TOKEN || undefined;
 
   beforeEach(() => {
     const baseUrl = process.env.NOTIFY_API_URL;
@@ -98,6 +101,37 @@ describer("notification api with a live service", function() {
         });
     });
 
+    it("send email notification with status callback URL and bearer token", () => {
+      const postEmailNotificationResponseJson = require("./schemas/v2/POST_notification_email_response.json");
+      const options = {
+        personalisation: personalisation,
+        reference: clientRef
+      };
+
+      should.exist(statusCallbackUrl);
+      should.exist(statusCallbackBearerToken);
+      return notifyClient
+        .sendEmail(
+          emailTemplateId,
+          email,
+          options,
+          statusCallbackUrl,
+          statusCallbackBearerToken
+        )
+        .then(response => {
+          response.statusCode.should.equal(201);
+          expect(response.body).to.be.jsonSchema(
+            postEmailNotificationResponseJson
+          );
+          response.body.content.body.should.equal(
+            "Hello Foo\n\nFunctional test help make our world a better place\n"
+          );
+          response.body.content.subject.should.equal("NodeJS integration test");
+          response.body.reference.should.equal(clientRef);
+          emailNotificationId = response.body.id;
+        });
+    });
+
     it("send sms notification", () => {
       var postSmsNotificationResponseJson = require("./schemas/v2/POST_notification_sms_response.json"),
         options = { personalisation: personalisation };
@@ -127,6 +161,32 @@ describer("notification api with a live service", function() {
       should.exist(smsSenderId);
       return whitelistNotifyClient
         .sendSms(smsTemplateId, phoneNumber, options)
+        .then(response => {
+          response.statusCode.should.equal(201);
+          expect(response.body).to.be.jsonSchema(
+            postSmsNotificationResponseJson
+          );
+          response.body.content.body.should.equal(
+            "Hello Foo\n\nFunctional Tests make our world a better place"
+          );
+          smsNotificationId = response.body.id;
+        });
+    });
+
+    it("send sms notification with status callback URL and bearer token", () => {
+      var postSmsNotificationResponseJson = require("./schemas/v2/POST_notification_sms_response.json"),
+        options = { personalisation: personalisation };
+
+      should.exist(statusCallbackUrl);
+      should.exist(statusCallbackBearerToken);
+      return notifyClient
+        .sendSms(
+          smsTemplateId,
+          phoneNumber,
+          options,
+          statusCallbackUrl,
+          statusCallbackBearerToken
+        )
         .then(response => {
           response.statusCode.should.equal(201);
           expect(response.body).to.be.jsonSchema(

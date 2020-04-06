@@ -11,16 +11,26 @@ export default class Client {
   public sendEmail(
     templateId: string,
     emailAddress: string,
-    options?: any
+    options?: any,
+    statusCallbackUrl?: string,
+    statusCallbackBearerToken?: string
   ): any {
     options = options || {};
-    const err = checkOptionsKeys(
+    statusCallbackUrl = statusCallbackUrl || "";
+    statusCallbackBearerToken = statusCallbackBearerToken || "";
+    let err = checkOptionsKeys(
       ["personalisation", "reference", "emailReplyToId"],
       options
     );
     if (err) {
       return Promise.reject(err);
     }
+
+    err = checkBearerToken(statusCallbackUrl, statusCallbackBearerToken);
+    if (err) {
+      return Promise.reject(err);
+    }
+
     const personalisation = options.personalisation || undefined;
     const reference = options.reference || undefined;
     const emailReplyToId = options.emailReplyToId || undefined;
@@ -33,17 +43,31 @@ export default class Client {
         emailAddress,
         personalisation,
         reference,
-        emailReplyToId
+        emailReplyToId,
+        statusCallbackUrl,
+        statusCallbackBearerToken
       )
     );
   }
 
-  public sendSms(templateId: string, phoneNumber: string, options?: any): any {
+  public sendSms(
+    templateId: string,
+    phoneNumber: string,
+    options?: any,
+    statusCallbackUrl?: string,
+    statusCallbackBearerToken?: string
+  ): any {
     options = options || {};
-    const err = checkOptionsKeys(
+    statusCallbackUrl = statusCallbackUrl || "";
+    statusCallbackBearerToken = statusCallbackBearerToken || "";
+    let err = checkOptionsKeys(
       ["personalisation", "reference", "smsSenderId"],
       options
     );
+    if (err) {
+      return Promise.reject(err);
+    }
+    err = checkBearerToken(statusCallbackUrl, statusCallbackBearerToken);
     if (err) {
       return Promise.reject(err);
     }
@@ -60,7 +84,9 @@ export default class Client {
         phoneNumber,
         personalisation,
         reference,
-        smsSenderId
+        smsSenderId,
+        statusCallbackUrl,
+        statusCallbackBearerToken
       )
     );
   }
@@ -142,7 +168,9 @@ const createPayload = (
   to: string,
   personalisation?: object,
   reference?: string,
-  replyToId?: string
+  replyToId?: string,
+  statusCallbackUrl?: string,
+  statusCallbackBearerToken?: string
 ) => {
   const payload: {
     template_id: string;
@@ -152,6 +180,8 @@ const createPayload = (
     reference?: string;
     email_reply_to_id?: string;
     sms_sender_id?: string;
+    status_callback_url?: string;
+    status_callback_bearer_token?: string;
   } = { template_id: templateId };
 
   if (type == "email") {
@@ -172,6 +202,14 @@ const createPayload = (
     payload.email_reply_to_id = replyToId;
   } else if (replyToId && type == "sms") {
     payload.sms_sender_id = replyToId;
+  }
+
+  if (statusCallbackUrl) {
+    payload.status_callback_url = statusCallbackUrl;
+  }
+
+  if (statusCallbackBearerToken) {
+    payload.status_callback_bearer_token = statusCallbackBearerToken;
   }
 
   return payload;
@@ -231,6 +269,15 @@ const checkOptionsKeys = (allowedKeys: Array<string>, options: object) => {
       "NotifyClient now uses an options configuration object. Options " +
       JSON.stringify(invalidKeys) +
       " not recognised. Please refer to the README.md for more information on method signatures.";
+    return new Error(message);
+  }
+  return null;
+};
+
+const checkBearerToken = (statusCallbackUrl, statusCallbackBearerToken) => {
+  if (statusCallbackUrl && !statusCallbackBearerToken) {
+    const message =
+      "Bearer token must be provided if the status callback URL is provided.";
     return new Error(message);
   }
   return null;

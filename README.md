@@ -257,6 +257,14 @@ personalisation = {
 Optional. Specifies the identifier of the email reply-to address to set for the notification. The identifiers are found in your service Settings, when you 'Manage' your 'Email reply to addresses'.
 If you omit this argument your default email reply-to address will be set for the notification.
 
+##### `statusCallbackUrl`
+
+Optional. Specifies the identifier of the HTTPS URL for delivery status updates to be sent to.
+
+##### `statusCallbackBearerToken`
+
+Optional. Specifies the identifier of the Bearer token that will be used for authentication to the delivery status callback URL. TThis must be provided if the status callback URL is provided.
+
 </details>
 
 ### Send a document by email
