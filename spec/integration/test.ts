@@ -30,9 +30,6 @@ describer("notification api with a live service", function() {
   const smsSenderId = process.env.SMS_SENDER_ID || undefined;
   const emailTemplateId = process.env.EMAIL_TEMPLATE_ID;
   const emailReplyToId = process.env.EMAIL_REPLY_TO_ID || undefined;
-  const statusCallbackUrl = process.env.STATUS_CALLBACK_URL || undefined;
-  const statusCallbackBearerToken =
-    process.env.STATUS_CALLBACK_BEARER_TOKEN || undefined;
 
   beforeEach(() => {
     const baseUrl = process.env.NOTIFY_API_URL;
@@ -107,9 +104,9 @@ describer("notification api with a live service", function() {
         personalisation: personalisation,
         reference: clientRef
       };
+      const statusCallbackUrl = "https://localhost/callback";
+      const statusCallbackBearerToken = "1234567890";
 
-      should.exist(statusCallbackUrl);
-      should.exist(statusCallbackBearerToken);
       return notifyClient
         .sendEmail(
           emailTemplateId,
@@ -176,9 +173,9 @@ describer("notification api with a live service", function() {
     it("send sms notification with status callback URL and bearer token", () => {
       var postSmsNotificationResponseJson = require("./schemas/v2/POST_notification_sms_response.json"),
         options = { personalisation: personalisation };
+      const statusCallbackUrl = "https://localhost/callback";
+      const statusCallbackBearerToken = "1234567890";
 
-      should.exist(statusCallbackUrl);
-      should.exist(statusCallbackBearerToken);
       return notifyClient
         .sendSms(
           smsTemplateId,
