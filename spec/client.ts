@@ -92,16 +92,16 @@ describe("notification api", () => {
       let email = "dom@example.com",
         templateId = "123",
         options = {
-          personalisation: { foo: "bar" }
+          personalisation: { foo: "bar" },
+          statusCallbackUrl: "https://localhost/callback",
+          statusCallbackBearerToken: "1234567890"
         },
-        callbackUrl = "https://localhost/callback",
-        bearerToken = "1234567890",
         data = {
           template_id: templateId,
           email_address: email,
           personalisation: options.personalisation,
-          status_callback_url: callbackUrl,
-          status_callback_bearer_token: bearerToken
+          status_callback_url: options.statusCallbackUrl,
+          status_callback_bearer_token: options.statusCallbackBearerToken
         };
 
       notifyAuthNock
@@ -109,7 +109,7 @@ describe("notification api", () => {
         .reply(200, { hooray: "bkbbk" });
 
       return notifyClient
-        .sendEmail(templateId, email, options, callbackUrl, bearerToken)
+        .sendEmail(templateId, email, options)
         .then(response => {
           expect(response.statusCode).to.equal(200);
         });
@@ -185,16 +185,16 @@ describe("notification api", () => {
       let phoneNo = "07525755555",
         templateId = "123",
         options = {
-          personalisation: { foo: "bar" }
+          personalisation: { foo: "bar" },
+          statusCallbackUrl: "https://localhost/callback",
+          statusCallbackBearerToken: "1234567890"
         },
-        callbackUrl = "https://localhost/callback",
-        bearerToken = "1234567890",
         data = {
           template_id: templateId,
           phone_number: phoneNo,
           personalisation: options.personalisation,
-          status_callback_url: callbackUrl,
-          status_callback_bearer_token: bearerToken
+          status_callback_url: options.statusCallbackUrl,
+          status_callback_bearer_token: options.statusCallbackBearerToken
         };
 
       notifyAuthNock
@@ -202,7 +202,7 @@ describe("notification api", () => {
         .reply(200, { hooray: "bkbbk" });
 
       return notifyClient
-        .sendSms(templateId, phoneNo, options, callbackUrl, bearerToken)
+        .sendSms(templateId, phoneNo, options)
         .then(function(response) {
           expect(response.statusCode).to.equal(200);
         });

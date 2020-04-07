@@ -24,6 +24,8 @@ describer("notification api with a live service", function() {
   let smsNotificationId;
   const personalisation = { name: "Foo" };
   const clientRef = "client-ref";
+  const statusCallbackUrl = "https://localhost/callback";
+  const statusCallbackBearerToken = "1234567890";
   const email = process.env.FUNCTIONAL_TEST_EMAIL;
   const phoneNumber = process.env.FUNCTIONAL_TEST_NUMBER;
   const smsTemplateId = process.env.SMS_TEMPLATE_ID;
@@ -102,19 +104,13 @@ describer("notification api with a live service", function() {
       const postEmailNotificationResponseJson = require("./schemas/v2/POST_notification_email_response.json");
       const options = {
         personalisation: personalisation,
-        reference: clientRef
+        reference: clientRef,
+        statusCallbackUrl: statusCallbackUrl,
+        statusCallbackBearerToken: statusCallbackBearerToken
       };
-      const statusCallbackUrl = "https://localhost/callback";
-      const statusCallbackBearerToken = "1234567890";
 
       return notifyClient
-        .sendEmail(
-          emailTemplateId,
-          email,
-          options,
-          statusCallbackUrl,
-          statusCallbackBearerToken
-        )
+        .sendEmail(emailTemplateId, email, options)
         .then(response => {
           response.statusCode.should.equal(201);
           expect(response.body).to.be.jsonSchema(
@@ -131,7 +127,11 @@ describer("notification api with a live service", function() {
 
     it("send sms notification", () => {
       var postSmsNotificationResponseJson = require("./schemas/v2/POST_notification_sms_response.json"),
-        options = { personalisation: personalisation };
+        options = {
+          personalisation: personalisation,
+          statusCallbackUrl: statusCallbackUrl,
+          statusCallbackBearerToken: statusCallbackBearerToken
+        };
 
       return notifyClient
         .sendSms(smsTemplateId, phoneNumber, options)
@@ -173,17 +173,9 @@ describer("notification api with a live service", function() {
     it("send sms notification with status callback URL and bearer token", () => {
       var postSmsNotificationResponseJson = require("./schemas/v2/POST_notification_sms_response.json"),
         options = { personalisation: personalisation };
-      const statusCallbackUrl = "https://localhost/callback";
-      const statusCallbackBearerToken = "1234567890";
 
       return notifyClient
-        .sendSms(
-          smsTemplateId,
-          phoneNumber,
-          options,
-          statusCallbackUrl,
-          statusCallbackBearerToken
-        )
+        .sendSms(smsTemplateId, phoneNumber, options)
         .then(response => {
           response.statusCode.should.equal(201);
           expect(response.body).to.be.jsonSchema(

@@ -11,15 +11,17 @@ export default class Client {
   public sendEmail(
     templateId: string,
     emailAddress: string,
-    options?: any,
-    statusCallbackUrl?: string,
-    statusCallbackBearerToken?: string
+    options?: any
   ): any {
     options = options || {};
-    statusCallbackUrl = statusCallbackUrl || "";
-    statusCallbackBearerToken = statusCallbackBearerToken || "";
-    let err = checkOptionsKeys(
-      ["personalisation", "reference", "emailReplyToId"],
+    const err = checkOptionsKeys(
+      [
+        "personalisation",
+        "reference",
+        "emailReplyToId",
+        "statusCallbackUrl",
+        "statusCallbackBearerToken"
+      ],
       options
     );
     if (err) {
@@ -29,6 +31,9 @@ export default class Client {
     const personalisation = options.personalisation || undefined;
     const reference = options.reference || undefined;
     const emailReplyToId = options.emailReplyToId || undefined;
+    const statusCallbackUrl = options.statusCallbackUrl || undefined;
+    const statusCallbackBearerToken =
+      options.statusCallbackBearerToken || undefined;
 
     return this.httpClient.post(
       "/v2/notifications/email",
@@ -45,18 +50,16 @@ export default class Client {
     );
   }
 
-  public sendSms(
-    templateId: string,
-    phoneNumber: string,
-    options?: any,
-    statusCallbackUrl?: string,
-    statusCallbackBearerToken?: string
-  ): any {
+  public sendSms(templateId: string, phoneNumber: string, options?: any): any {
     options = options || {};
-    statusCallbackUrl = statusCallbackUrl || "";
-    statusCallbackBearerToken = statusCallbackBearerToken || "";
-    let err = checkOptionsKeys(
-      ["personalisation", "reference", "smsSenderId"],
+    const err = checkOptionsKeys(
+      [
+        "personalisation",
+        "reference",
+        "smsSenderId",
+        "statusCallbackUrl",
+        "statusCallbackBearerToken"
+      ],
       options
     );
     if (err) {
@@ -66,6 +69,9 @@ export default class Client {
     const personalisation = options.personalisation || undefined;
     const reference = options.reference || undefined;
     const smsSenderId = options.smsSenderId || undefined;
+    const statusCallbackUrl = options.statusCallbackUrl || undefined;
+    const statusCallbackBearerToken =
+      options.statusCallbackBearerToken || undefined;
 
     return this.httpClient.post(
       "/v2/notifications/sms",
