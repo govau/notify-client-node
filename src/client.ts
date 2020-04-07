@@ -26,11 +26,6 @@ export default class Client {
       return Promise.reject(err);
     }
 
-    err = checkBearerToken(statusCallbackUrl, statusCallbackBearerToken);
-    if (err) {
-      return Promise.reject(err);
-    }
-
     const personalisation = options.personalisation || undefined;
     const reference = options.reference || undefined;
     const emailReplyToId = options.emailReplyToId || undefined;
@@ -64,10 +59,6 @@ export default class Client {
       ["personalisation", "reference", "smsSenderId"],
       options
     );
-    if (err) {
-      return Promise.reject(err);
-    }
-    err = checkBearerToken(statusCallbackUrl, statusCallbackBearerToken);
     if (err) {
       return Promise.reject(err);
     }
@@ -269,15 +260,6 @@ const checkOptionsKeys = (allowedKeys: Array<string>, options: object) => {
       "NotifyClient now uses an options configuration object. Options " +
       JSON.stringify(invalidKeys) +
       " not recognised. Please refer to the README.md for more information on method signatures.";
-    return new Error(message);
-  }
-  return null;
-};
-
-const checkBearerToken = (statusCallbackUrl, statusCallbackBearerToken) => {
-  if (statusCallbackUrl && !statusCallbackBearerToken) {
-    const message =
-      "Bearer token must be provided if the status callback URL is provided.";
     return new Error(message);
   }
   return null;
