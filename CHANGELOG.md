@@ -1,3 +1,9 @@
+## [5.1.0] - 2020-04-07
+
+### Changed
+
+- Added delivery status callback options to sendEmail and sendSms calls
+
 ## [5.0.3] - 2019-12-19
 
 ### Changed
