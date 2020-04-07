@@ -150,6 +150,14 @@ If you omit this argument your default sms sender will be set for the notificati
 
 Example usage with optional reference -
 
+##### `statusCallbackUrl`
+
+Optional. Specifies the identifier of the HTTPS URL for delivery status updates to be sent to.
+
+##### `statusCallbackBearerToken`
+
+Optional. Specifies the identifier of the Bearer token that will be used for authentication to the delivery status callback URL. This must be provided if the status callback URL is provided.
+
 </details>
 
 ### Email
@@ -263,7 +271,7 @@ Optional. Specifies the identifier of the HTTPS URL for delivery status updates 
 
 ##### `statusCallbackBearerToken`
 
-Optional. Specifies the identifier of the Bearer token that will be used for authentication to the delivery status callback URL. TThis must be provided if the status callback URL is provided.
+Optional. Specifies the identifier of the Bearer token that will be used for authentication to the delivery status callback URL. This must be provided if the status callback URL is provided.
 
 </details>
 
