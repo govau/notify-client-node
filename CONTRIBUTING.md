@@ -31,7 +31,6 @@ export API_SENDING_KEY="API_whitelist_key for sending a SMS to a receiving numbe
 export INBOUND_SMS_QUERY_KEY="API_test_key to get received text messages - leave blank for local development as cannot test locally"
 ```
 
-
 To run the integration tests:
 
 `make integration-test`

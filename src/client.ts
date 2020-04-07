@@ -15,15 +15,25 @@ export default class Client {
   ): any {
     options = options || {};
     const err = checkOptionsKeys(
-      ["personalisation", "reference", "emailReplyToId"],
+      [
+        "personalisation",
+        "reference",
+        "emailReplyToId",
+        "statusCallbackUrl",
+        "statusCallbackBearerToken"
+      ],
       options
     );
     if (err) {
       return Promise.reject(err);
     }
+
     const personalisation = options.personalisation || undefined;
     const reference = options.reference || undefined;
     const emailReplyToId = options.emailReplyToId || undefined;
+    const statusCallbackUrl = options.statusCallbackUrl || undefined;
+    const statusCallbackBearerToken =
+      options.statusCallbackBearerToken || undefined;
 
     return this.httpClient.post(
       "/v2/notifications/email",
@@ -33,7 +43,9 @@ export default class Client {
         emailAddress,
         personalisation,
         reference,
-        emailReplyToId
+        emailReplyToId,
+        statusCallbackUrl,
+        statusCallbackBearerToken
       )
     );
   }
@@ -41,7 +53,13 @@ export default class Client {
   public sendSms(templateId: string, phoneNumber: string, options?: any): any {
     options = options || {};
     const err = checkOptionsKeys(
-      ["personalisation", "reference", "smsSenderId"],
+      [
+        "personalisation",
+        "reference",
+        "smsSenderId",
+        "statusCallbackUrl",
+        "statusCallbackBearerToken"
+      ],
       options
     );
     if (err) {
@@ -51,6 +69,9 @@ export default class Client {
     const personalisation = options.personalisation || undefined;
     const reference = options.reference || undefined;
     const smsSenderId = options.smsSenderId || undefined;
+    const statusCallbackUrl = options.statusCallbackUrl || undefined;
+    const statusCallbackBearerToken =
+      options.statusCallbackBearerToken || undefined;
 
     return this.httpClient.post(
       "/v2/notifications/sms",
@@ -60,7 +81,9 @@ export default class Client {
         phoneNumber,
         personalisation,
         reference,
-        smsSenderId
+        smsSenderId,
+        statusCallbackUrl,
+        statusCallbackBearerToken
       )
     );
   }
@@ -142,7 +165,9 @@ const createPayload = (
   to: string,
   personalisation?: object,
   reference?: string,
-  replyToId?: string
+  replyToId?: string,
+  statusCallbackUrl?: string,
+  statusCallbackBearerToken?: string
 ) => {
   const payload: {
     template_id: string;
@@ -152,6 +177,8 @@ const createPayload = (
     reference?: string;
     email_reply_to_id?: string;
     sms_sender_id?: string;
+    status_callback_url?: string;
+    status_callback_bearer_token?: string;
   } = { template_id: templateId };
 
   if (type == "email") {
@@ -172,6 +199,14 @@ const createPayload = (
     payload.email_reply_to_id = replyToId;
   } else if (replyToId && type == "sms") {
     payload.sms_sender_id = replyToId;
+  }
+
+  if (statusCallbackUrl) {
+    payload.status_callback_url = statusCallbackUrl;
+  }
+
+  if (statusCallbackBearerToken) {
+    payload.status_callback_bearer_token = statusCallbackBearerToken;
   }
 
   return payload;

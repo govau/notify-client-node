@@ -88,6 +88,33 @@ describe("notification api", () => {
         });
     });
 
+    it("should send an email with status callback url and bearer token", () => {
+      let email = "dom@example.com",
+        templateId = "123",
+        options = {
+          personalisation: { foo: "bar" },
+          statusCallbackUrl: "https://localhost/callback",
+          statusCallbackBearerToken: "1234567890"
+        },
+        data = {
+          template_id: templateId,
+          email_address: email,
+          personalisation: options.personalisation,
+          status_callback_url: options.statusCallbackUrl,
+          status_callback_bearer_token: options.statusCallbackBearerToken
+        };
+
+      notifyAuthNock
+        .post("/v2/notifications/email", data)
+        .reply(200, { hooray: "bkbbk" });
+
+      return notifyClient
+        .sendEmail(templateId, email, options)
+        .then(response => {
+          expect(response.statusCode).to.equal(200);
+        });
+    });
+
     it("should reject options dicts with unknown options", () => {
       let email = "foo@bar.com",
         templateId = "123",
@@ -141,6 +168,33 @@ describe("notification api", () => {
           phone_number: phoneNo,
           personalisation: options.personalisation,
           sms_sender_id: options.smsSenderId
+        };
+
+      notifyAuthNock
+        .post("/v2/notifications/sms", data)
+        .reply(200, { hooray: "bkbbk" });
+
+      return notifyClient
+        .sendSms(templateId, phoneNo, options)
+        .then(function(response) {
+          expect(response.statusCode).to.equal(200);
+        });
+    });
+
+    it("should send an sms with status callback url and bearer token", () => {
+      let phoneNo = "07525755555",
+        templateId = "123",
+        options = {
+          personalisation: { foo: "bar" },
+          statusCallbackUrl: "https://localhost/callback",
+          statusCallbackBearerToken: "1234567890"
+        },
+        data = {
+          template_id: templateId,
+          phone_number: phoneNo,
+          personalisation: options.personalisation,
+          status_callback_url: options.statusCallbackUrl,
+          status_callback_bearer_token: options.statusCallbackBearerToken
         };
 
       notifyAuthNock

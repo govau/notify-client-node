@@ -24,6 +24,8 @@ describer("notification api with a live service", function() {
   let smsNotificationId;
   const personalisation = { name: "Foo" };
   const clientRef = "client-ref";
+  const statusCallbackUrl = "https://localhost/callback";
+  const statusCallbackBearerToken = "1234567890";
   const email = process.env.FUNCTIONAL_TEST_EMAIL;
   const phoneNumber = process.env.FUNCTIONAL_TEST_NUMBER;
   const smsTemplateId = process.env.SMS_TEMPLATE_ID;
@@ -98,9 +100,38 @@ describer("notification api with a live service", function() {
         });
     });
 
+    it("send email notification with status callback URL and bearer token", () => {
+      const postEmailNotificationResponseJson = require("./schemas/v2/POST_notification_email_response.json");
+      const options = {
+        personalisation: personalisation,
+        reference: clientRef,
+        statusCallbackUrl: statusCallbackUrl,
+        statusCallbackBearerToken: statusCallbackBearerToken
+      };
+
+      return notifyClient
+        .sendEmail(emailTemplateId, email, options)
+        .then(response => {
+          response.statusCode.should.equal(201);
+          expect(response.body).to.be.jsonSchema(
+            postEmailNotificationResponseJson
+          );
+          response.body.content.body.should.equal(
+            "Hello Foo\n\nFunctional test help make our world a better place\n"
+          );
+          response.body.content.subject.should.equal("NodeJS integration test");
+          response.body.reference.should.equal(clientRef);
+          emailNotificationId = response.body.id;
+        });
+    });
+
     it("send sms notification", () => {
       var postSmsNotificationResponseJson = require("./schemas/v2/POST_notification_sms_response.json"),
-        options = { personalisation: personalisation };
+        options = {
+          personalisation: personalisation,
+          statusCallbackUrl: statusCallbackUrl,
+          statusCallbackBearerToken: statusCallbackBearerToken
+        };
 
       return notifyClient
         .sendSms(smsTemplateId, phoneNumber, options)
@@ -126,6 +157,24 @@ describer("notification api with a live service", function() {
 
       should.exist(smsSenderId);
       return whitelistNotifyClient
+        .sendSms(smsTemplateId, phoneNumber, options)
+        .then(response => {
+          response.statusCode.should.equal(201);
+          expect(response.body).to.be.jsonSchema(
+            postSmsNotificationResponseJson
+          );
+          response.body.content.body.should.equal(
+            "Hello Foo\n\nFunctional Tests make our world a better place"
+          );
+          smsNotificationId = response.body.id;
+        });
+    });
+
+    it("send sms notification with status callback URL and bearer token", () => {
+      var postSmsNotificationResponseJson = require("./schemas/v2/POST_notification_sms_response.json"),
+        options = { personalisation: personalisation };
+
+      return notifyClient
         .sendSms(smsTemplateId, phoneNumber, options)
         .then(response => {
           response.statusCode.should.equal(201);
