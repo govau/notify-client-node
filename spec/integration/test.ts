@@ -35,17 +35,17 @@ describer("notification api with a live service", function() {
 
   beforeEach(() => {
     const baseUrl = process.env.NOTIFY_API_URL;
-    const apiKeyId = process.env.API_KEY;
+    const apiKey = process.env.API_KEY;
     const inboundSmsKeyId = process.env.INBOUND_SMS_QUERY_KEY;
     const whitelistApiKeyId = process.env.API_SENDING_KEY;
-    notifyClient = new NotifyClient({ baseUrl, apiKeyId });
+    notifyClient = new NotifyClient({ baseUrl, apiKey });
     whitelistNotifyClient = new NotifyClient({
       baseUrl,
-      apiKeyId: whitelistApiKeyId
+      apiKey: whitelistApiKeyId
     });
     receivedTextClient = new NotifyClient({
       baseUrl,
-      apiKeyId: inboundSmsKeyId
+      apiKey: inboundSmsKeyId
     });
     var definitions_json = require("./schemas/v2/definitions.json");
     chai.tv4.addSchema("definitions.json", definitions_json);

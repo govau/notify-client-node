@@ -10,11 +10,11 @@ MockDate.set(1234567890000);
 const baseUrl = "http://localhost";
 const serviceId = "c745a8d8-b48a-4b0d-96e5-dbea0165ebd1";
 const secret = "8b3aa916-ec82-434e-b0c5-d5d9b371d6a3";
-const apiKeyId = `testkey-${serviceId}-${secret}`;
+const apiKey = `testkey-${serviceId}-${secret}`;
 
 function getNotifyClient() {
   let baseUrl = "http://localhost";
-  let notifyClient = new NotifyClient({ baseUrl, apiKeyId });
+  let notifyClient = new NotifyClient({ baseUrl, apiKey });
   return notifyClient;
 }
 

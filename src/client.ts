@@ -4,8 +4,11 @@ import { RequestPromise } from "request-promise";
 export default class Client {
   httpClient: HttpClient;
 
-  constructor(params: { apiKeyId: string; baseUrl?: string }) {
-    this.httpClient = new HttpClient(params);
+  constructor(params: { apiKey: string; baseUrl?: string }) {
+    this.httpClient = new HttpClient({
+      apiKeyId: params.apiKey,
+      baseUrl: params.baseUrl,
+    });
   }
 
   public sendEmail(
@@ -93,6 +96,7 @@ export default class Client {
   }
 
   public getNotifications(options?: {
+    templateId?: string;
     templateType?: string;
     status?: string;
     reference?: string;
@@ -213,6 +217,7 @@ const createPayload = (
 };
 
 const buildGetAllNotificationsQuery = (options?: {
+  templateId?: string;
   templateType?: string;
   status?: string;
   reference?: string;
@@ -223,11 +228,16 @@ const buildGetAllNotificationsQuery = (options?: {
   }
 
   const payload: {
+    template_id?: string;
     template_type?: string;
     status?: string;
     reference?: string;
     older_than?: string;
   } = {};
+
+  if (options.templateId) {
+    payload.template_id = options.templateId;
+  }
 
   if (options.templateType) {
     payload.template_type = options.templateType;
@@ -245,7 +255,9 @@ const buildGetAllNotificationsQuery = (options?: {
     payload.older_than = options.olderThanId;
   }
 
-  return buildQueryStringFromDict(payload);
+  const queryString = buildQueryStringFromDict(payload);
+
+  return queryString;
 };
 
 const buildQueryStringFromDict = (dictionary: object) => {
