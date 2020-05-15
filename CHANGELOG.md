@@ -1,3 +1,10 @@
+## [5.2.0] - 2020-04-14
+
+### Changed
+
+- Update API key initialisation parameter to be "apiKey" (not "apiKeyId") as per docs
+- Add support for filtering of notifications by template ID
+
 ## [5.1.0] - 2020-04-07
 
 ### Changed

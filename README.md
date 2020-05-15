@@ -470,6 +470,7 @@ Click here to expand for more information.
 notifyClient
   .getNotifications({
     templateType: "email",
+    templateId: "xxxxx",
     status: "delivered",
     reference: "client-ref-no",
     olderThanId: "xxxxx"
@@ -539,10 +540,14 @@ Click here to expand for more information.
 
 ##### `templateType`
 
-If omitted all messages are returned. Otherwise you can filter by:
+If omitted, all messages are returned. Otherwise you can filter by:
 
 - `email`
 - `sms`
+
+##### `templateId`
+
+If omitted, all messages are returned. Otherwise you can filter by a template ID string.
 
 ##### `status`
 
@@ -578,7 +583,7 @@ This is the `reference` you gave at the time of sending the notification. This c
 
 ##### `olderThanId`
 
-If omitted all messages are returned. Otherwise you can filter to retrieve all notifications older than the given notification `id`.
+If omitted, all messages are returned. Otherwise you can filter to retrieve all notifications older than the given notification `id`.
 
 </details>
 
@@ -779,7 +784,7 @@ Click here to expand for more information.
 
 ##### `templateType`
 
-If omitted all messages are returned. Otherwise you can filter by:
+If omitted, all messages are returned. Otherwise you can filter by:
 
 - `email`
 - `sms`
