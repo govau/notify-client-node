@@ -60,6 +60,7 @@ describe("notification api", () => {
         .sendEmail(templateId, email, options)
         .then(response => {
           expect(response.statusCode).to.equal(200);
+          expect(response.body.hooray).to.equal("bkbbk");
         });
     });
 
@@ -85,6 +86,7 @@ describe("notification api", () => {
         .sendEmail(templateId, email, options)
         .then(response => {
           expect(response.statusCode).to.equal(200);
+          expect(response.body.hooray).to.equal("bkbbk");
         });
     });
 
@@ -112,6 +114,7 @@ describe("notification api", () => {
         .sendEmail(templateId, email, options)
         .then(response => {
           expect(response.statusCode).to.equal(200);
+          expect(response.body.hooray).to.equal("bkbbk");
         });
     });
 
@@ -153,6 +156,7 @@ describe("notification api", () => {
         .sendSms(templateId, phoneNo, options)
         .then(function(response) {
           expect(response.statusCode).to.equal(200);
+          expect(response.body.hooray).to.equal("bkbbk");
         });
     });
 
@@ -178,6 +182,7 @@ describe("notification api", () => {
         .sendSms(templateId, phoneNo, options)
         .then(function(response) {
           expect(response.statusCode).to.equal(200);
+          expect(response.body.hooray).to.equal("bkbbk");
         });
     });
 
@@ -205,6 +210,7 @@ describe("notification api", () => {
         .sendSms(templateId, phoneNo, options)
         .then(function(response) {
           expect(response.statusCode).to.equal(200);
+          expect(response.body.hooray).to.equal("bkbbk");
         });
     });
 
