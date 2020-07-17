@@ -15,7 +15,7 @@ export default class Client {
     templateId: string,
     emailAddress: string,
     options?: any
-  ): any {
+  ): Promise<any> {
     options = options || {};
     const err = checkOptionsKeys(
       [
@@ -38,7 +38,7 @@ export default class Client {
     const statusCallbackBearerToken =
       options.statusCallbackBearerToken || undefined;
 
-    return this.httpClient.post(
+    return Promise.resolve<RequestPromise>(this.httpClient.post(
       "/v2/notifications/email",
       createPayload(
         "email",
@@ -50,10 +50,10 @@ export default class Client {
         statusCallbackUrl,
         statusCallbackBearerToken
       )
-    );
+    ));
   }
 
-  public sendSms(templateId: string, phoneNumber: string, options?: any): any {
+  public sendSms(templateId: string, phoneNumber: string, options?: any): Promise<any> {
     options = options || {};
     const err = checkOptionsKeys(
       [
@@ -76,7 +76,7 @@ export default class Client {
     const statusCallbackBearerToken =
       options.statusCallbackBearerToken || undefined;
 
-    return this.httpClient.post(
+    return Promise.resolve<RequestPromise>(this.httpClient.post(
       "/v2/notifications/sms",
       createPayload(
         "sms",
@@ -88,7 +88,7 @@ export default class Client {
         statusCallbackUrl,
         statusCallbackBearerToken
       )
-    );
+    ));
   }
 
   public getNotificationById(notificationId: string): RequestPromise {

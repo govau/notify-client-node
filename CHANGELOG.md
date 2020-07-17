@@ -1,3 +1,9 @@
+## [5.2.1] - 2020-05-29
+
+### Changed
+
+- Add Promise return type to sendSms and sendEmail
+
 ## [5.2.0] - 2020-04-14
 
 ### Changed
