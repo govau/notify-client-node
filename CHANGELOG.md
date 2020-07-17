@@ -1,3 +1,9 @@
+## [5.2.4] - 2020-07-17
+
+### Changed
+
+- Upgrade mocha, remove optimist
+
 ## [5.2.3] - 2020-07-17
 
 ### Changed
