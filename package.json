@@ -20,7 +20,7 @@
     "jsonwebtoken": "8.5.1",
     "request": "2.88.0",
     "request-promise": "4.2.5",
-    "underscore": "1.9.1"
+    "underscore": "1.12.1"
   },
   "devDependencies": {
     "@types/chai": "4.2.7",
