@@ -1,3 +1,9 @@
+## [5.2.6] - 2021-05-18
+
+### Changed
+
+- Upgrade underscore
+
 ## [5.2.5] - 2021-05-04
 
 ### Changed
