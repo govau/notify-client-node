@@ -17,7 +17,7 @@
     "@types/jsonwebtoken": "8.3.5",
     "@types/mockdate": "2.0.0",
     "@types/request-promise": "4.1.45",
-    "jsonwebtoken": "8.5.1",
+    "jsonwebtoken": "9.0.0",
     "request": "2.88.0",
     "request-promise": "4.2.5",
     "underscore": "^1.13.1"
